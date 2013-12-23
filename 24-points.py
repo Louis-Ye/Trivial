@@ -92,12 +92,12 @@ def permAndGetAns(nums, h, t, ans, points):
 				swap(nums, i, h)
 
 
-ss = raw_input("Please input the points you want to get (i.e. 24):")
+ss = raw_input("Please input the points you want to get (default is 24):")
 if ss == '':
 	points = 24
 else:
 	points = float(ss)
-ss = raw_input("Please input 4 number separated by spaces:").split()
+ss = raw_input("Please input 4 number separated by space:").split()
 nums = []
 for item in ss:
 	nums.append(float(item))
@@ -106,6 +106,6 @@ ans = []
 
 permAndGetAns(nums, 0, 3, ans, points)
 
-print 'Solutions:'
+print 'There are ' + str(len(ans)) + ' solutions:'
 for item in ans:
 	print item + ' = ' + str(points)
