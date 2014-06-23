@@ -1,2 +1,4 @@
-This project is a space to place some trivial but interesting codes.
+
+========
+This repository is a space for placing some trivial but interesting codes.
 
