@@ -1,39 +1,47 @@
+import itertools
 
-user_input_target = [24.0]
-user_input_elements = [1.0, 1.0, 2.0, 6.0]
+user_input_target = [24]
+user_input_elements = [3, 4, 12, 1]
 
+user_input_target = [float(user_input_target[0])]
+user_input_elements = [float(x) for x in user_input_elements]
 input_elepairs = [(i, ele) for i, ele in enumerate(user_input_elements)]
-input_format = [len(user_input_elements), len(user_input_elements) - 1]
-input_ops = ['+', '-', '*', '/']
+sign_input_elepairs = input_elepairs + [(i, -ele) for i, ele in input_elepairs]
+operations = [
+    lambda a, b, a_s, b_s: (a + b, "({} + {})".format(a_s, b_s)),
+    lambda a, b, a_s, b_s: (a - b, "({} - {})".format(a_s, b_s)),
+    lambda a, b, a_s, b_s: (a * b, "({} * {})".format(a_s, b_s)),
+    lambda a, b, a_s, b_s: (a / b if b != 0 else a,
+                            "({} / {})".format(a_s, b_s)),
+]
 
-def Evaluate(elements, ops):
-    value = elements[0]
-    for i, op in enumerate(ops):
-        if op == '+':
-            value += elements[i + 1]
-        elif op == '-':
-            value -= elements[i + 1]
-        elif op == '*':
-            value *= elements[i + 1]
-        elif op == '/':
-            if elements[i + 1] != 0:
-                value /= elements[i + 1]
-    return value
-
-def Search(elements, ops, eleindex_taken):
-    if len(elements) == len(user_input_elements):
-        if abs(Evaluate(elements, ops) - user_input_target[0]) < 0.0001:
-            print 'Answer: ', elements, ops
-            # print '---- ', elements_taken, ops_taken
-        return
-    if len(elements) == len(ops):
-        for i, ele in input_elepairs:
-            if i not in eleindex_taken:
-                taken = eleindex_taken + [i]
-                Search(elements + [ele], ops, taken)
-                Search(elements + [-ele], ops, taken)
+def Search(elements):
+    if len(elements) == 1:
+        yield (elements[0], "{}".format(elements[0]))
     else:
-        for op in input_ops:
-            Search(elements, ops + [op], eleindex_taken)
+        for i in xrange(len(elements) - 1):
+            for left_val, left_str in Search(elements[0:i + 1]):
+                for right_val, right_str in Search(elements[i + 1:]):
+                    for Op in operations:
+                        yield Op(left_val, right_val, left_str, right_str)
 
-Search([], [], [])
+def ValidPerm(perm):
+    indexes = set()
+    for i, ele in perm:
+        if i in indexes:
+            return False
+        indexes.add(i)
+    return True
+
+def main():
+    index = 0
+    for perm in itertools.permutations(sign_input_elepairs,
+                                       len(user_input_elements)):
+        if ValidPerm(perm):
+            for value, form_str in Search([ele for _, ele in perm]):
+                if abs(value - user_input_target[0]) < 0.0001:
+                    index += 1
+                    print "Answer {}: {} = {}".format(index, form_str, value)
+
+if __name__ == "__main__":
+    main()
