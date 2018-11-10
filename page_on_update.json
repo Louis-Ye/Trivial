@@ -1,0 +1,12 @@
+{
+    "SMTP_SERVER": "smtp.server.com",
+    "SMTP_PORT": 587,
+    "SOURCE_EMAIL": "source@email.com",
+    "SOURCE_PASSWORD": "source_password",
+    "TARGET_EMAIL": "target@email.com",
+    "EMAIL_TITLE": "email title",
+    "EMAIL_CONTENT": "email content\n",
+    "PAGE_URL": "https://www.google.com",
+    "REFRESH_PERIOD_SEC": 60,
+    "TRIGGER_ITEMS_DISAPPEAR": ["ITEM A", "ITEM B"]
+}
