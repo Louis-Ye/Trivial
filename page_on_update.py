@@ -26,7 +26,7 @@ def SendEmail(input_json):
     smtp_server.starttls()
     # Re-identify as an encrypted connection
     smtp_server.ehlo()
-    smtp_server.login(input_json['SOURCE_EMAIL'], input_json['PASSWORD'])
+    smtp_server.login(input_json['SOURCE_EMAIL'], input_json['SOURCE_PASSWORD'])
     smtp_server.sendmail(input_json['SOURCE_EMAIL'], input_json['TARGET_EMAIL'], msg.as_string())
     smtp_server.quit()
 
